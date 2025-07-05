@@ -3,7 +3,7 @@
 lib = File.expand_path('lib', __dir__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
-require 'hati_operation/version'
+require 'hati_rails_api/version'
 
 Gem::Specification.new do |spec|
   spec.name    = 'hati-rails-api'
