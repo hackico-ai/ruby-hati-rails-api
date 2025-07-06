@@ -63,7 +63,8 @@ class Api::V2::UsersController < ApplicationController
   def create
     run_and_render CreateOperation do
       params CreateExtendedContract
-      step ProcessGlobalTransferService
+      step service: ProcessGlobalTransferService
+
       on_success Macro.serializer[GlobalTransfer, status: 201]
     end
   end
