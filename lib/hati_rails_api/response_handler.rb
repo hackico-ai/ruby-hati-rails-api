@@ -41,6 +41,7 @@ module HatiRailsApi
       params.respond_to?(:permit) ? params.permit.to_unsafe_h : params
     end
 
+    # TODO: Error handler class
     def handle_unexpected_error(error)
       Rails.logger.error "Unexpected error in ResponseHandler: #{error.message}"
       Rails.logger.error error.backtrace.join("\n")
