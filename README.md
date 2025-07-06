@@ -122,8 +122,8 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 
 ## 👥 Authors
 
-- **Mariya Giy** - [giy.mariya@gmail.com](mailto:giy.mariya@gmail.com)
-- **Yuri Gi** - [yurigi.pro@gmail.com](mailto:yurigi.pro@gmail.com)
+- [**Mariya Giy**](https://github.com/mariegiy) - [send email](mailto:giy.mariya@gmail.com)
+- [**Yuri Gi**](https://github.com/yurigitsu) - [send email](mailto:yurigi.pro@gmail.com)
 
 ## 🔗 Links
 
