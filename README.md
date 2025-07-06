@@ -49,22 +49,23 @@ gem install hati-rails-api
 ```ruby
 # In your Rails API controller
 class Api::V1::UsersController < ApplicationController
-  include HatiRailsApi::ApiController
+  include HatiRailsApi::ResponseHandler
 
   def create
-    operation = CreateUserOperation.new(user_params)
-
-    if operation.success?
-      render json: operation.result, status: :created
-    else
-      render_api_error(operation.errors)
-    end
+    run_and_render CreateOperation
   end
+end
 
-  private
+# In your Rails API V2 controller
+class Api::V2::UsersController < ApplicationController
+  include HatiRailsApi::ResponseHandler
 
-  def user_params
-    params.require(:user).permit(:name, :email)
+  def create
+    run_and_render CreateOperation do
+      params CreateExtendedContract
+      step ProcessGlobalTransferService
+      on_success Macro.serializer[GlobalTransfer, status: 201]
+    end
   end
 end
 ```
@@ -76,9 +77,18 @@ end
 Structure your business logic with clean, testable operations:
 
 ```ruby
-class CreateUserOperation < HatiRailsApi::ApiOperation
-  def call
-    # Your business logic here
+class CreateOperation < ApiOperation
+  params CreateContract, err: ApiErr.call(422)
+
+  step query: Repo::User
+  step service: ProcessTransferService
+
+  on_success SerializerService.call(Transfer, status: 201)
+  on_failure ApiErrorSerializer
+
+  def call(params:)
+    user = query.find_by_id(params[:id]), err: ApiErr.call(409)
+    service.call(user.id), err: ApiErr.call(503)
   end
 end
 ```
