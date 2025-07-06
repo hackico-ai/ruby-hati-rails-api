@@ -1,0 +1,47 @@
+AllCops:
+  NewCops: enable
+  TargetRubyVersion: 3.0
+  Exclude:
+    - 'bin/**/*'
+    - 'vendor/**/*'
+    - 'db/schema.rb'
+    - 'node_modules/**/*'
+
+Style/Documentation:
+  Enabled: false
+
+Style/StringLiterals:
+  EnforcedStyle: single_quotes
+
+Style/FrozenStringLiteralComment:
+  Enabled: true
+
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/**/*'
+    - '*.gemspec'
+
+Metrics/MethodLength:
+  Max: 15
+
+Metrics/AbcSize:
+  Max: 20
+
+Layout/LineLength:
+  Max: 120
+
+Style/HashSyntax:
+  EnforcedStyle: ruby19
+
+Style/SymbolArray:
+  EnforcedStyle: brackets
+
+Style/WordArray:
+  EnforcedStyle: brackets
+
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+Naming/FileName:
+  Exclude:
+    - 'lib/hati-rails-api.rb' 

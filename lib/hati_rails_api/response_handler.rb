@@ -1,38 +1,44 @@
+# frozen_string_literal: true
+
+require 'hati_command'
+require 'hati_operation'
+require 'pry'
+
 module HatiRailsApi
   module ResponseHandler
     # API operation helpers
-    def run_and_render(operation, **options, &block)
-      result = execute_operation(operation, **options, &block)
 
-      if result.success?
-        render_success(result.value)
-      else
-        render_error(result.value, status: result.status || :unprocessable_entity)
-      end
+    DEF_ERR = :internal_server_error
+    DEF_ERR_MSG = 'An unexpected error occurred'
+    DEF_SCS = :ok
+    DEF_SCS_MSG = 'Operation completed successfully'
+
+    private
+
+    def run_and_render(operation, &block)
+      result = execute_operation(operation, &block)
+      result_value = result.value
+
+      return render_success(result_value) if result.success?
+
+      status = result_value.try(:status) || DEF_ERR
+      render_error(result_value, status: status)
     rescue StandardError => e
       handle_unexpected_error(e)
     end
 
-    private
+    def execute_operation(op, &block)
+      return op if op.is_a?(HatiCommand::Result)
 
-    def execute_operation(operation, **options, &block)
-      case operation
-      when HatiCommand::Result
-        operation
-      when HatiOperation::Base
-        if block_given?
-          operation.call(params: merged_params(**options), &block)
-        else
-          operation.call(params: merged_params(**options))
-        end
-      else
-        raise ArgumentError, "Unsupported operation type: #{operation.class}. " \
-                           'Expected HatiCommand::Result or HatiOperation::Base'
-      end
+      # TODO: or check if it has rescpective obj API
+      raise Error::UnsupportedExec, op unless op < HatiOperation::Base
+
+      block_given? ? op.call(params: unsafe_params, &block) : op.call(params: unsafe_params)
     end
 
-    def merged_params(**options)
-      params.respond_to?(:permit) ? params.to_unsafe_h.merge(options) : params.merge(options)
+    # WIP:
+    def unsafe_params
+      params.respond_to?(:permit) ? params.permit.to_unsafe_h : params
     end
 
     def handle_unexpected_error(error)
@@ -40,13 +46,17 @@ module HatiRailsApi
       Rails.logger.error error.backtrace.join("\n")
 
       render_error(
-        { message: 'An unexpected error occurred', details: error.message },
+        {
+          message: 'An unexpected error occurred',
+          details: error.message
+        },
         status: :internal_server_error
       )
     end
 
     def render_error(error, status: :unprocessable_entity)
       error_response = normalize_error_response(error)
+
       render json: { error: error_response }, status: status
     end
 
