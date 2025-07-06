@@ -17,8 +17,7 @@ module HatiRailsApi
 
     def run_and_render(operation, &block)
       result = execute_operation(operation, &block)
-      result_value = result.value
-
+      result_value = result.value      
       return render_success(result_value) if result.success?
 
       status = result_value.try(:status) || DEF_ERR

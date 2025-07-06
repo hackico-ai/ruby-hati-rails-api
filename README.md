@@ -79,17 +79,17 @@ Structure your business logic with clean, testable operations:
 
 ```ruby
 class CreateOperation < ApiOperation
-  params CreateContract, err: ApiErr.call(422)
+  params CreateContract, err: 422
 
-  step query: Repo::User
-  step service: ProcessTransferService
+  step query: Repo::User, err: 404
+  step service: ProcessTransferService, err: 503
 
   on_success SerializerService.call(Transfer, status: 201)
   on_failure ApiErrorSerializer
 
   def call(params:)
-    user = query.find_by_id(params[:id]), err: ApiErr.call(409)
-    service.call(user.id), err: ApiErr.call(503)
+    user = step query.find_by_id(params[:id])
+    step service.call(user.id)
   end
 end
 ```
