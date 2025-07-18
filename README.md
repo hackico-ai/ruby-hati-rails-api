@@ -5,24 +5,25 @@
 [![Rails](https://img.shields.io/badge/rails-API-red.svg)](https://rubyonrails.org/)
 [![MIT License](https://img.shields.io/badge/license-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
-> A powerful, batteries-included toolkit for rapidly scaffolding Rails APIs with sensible defaults and best practices.
+> A lightweight, opinionated toolkit for building robust Rails APIs with structured operation patterns and consistent error handling.
 
 ## ✨ Features
 
-**Hati Rails API** provides a comprehensive suite of tools designed to streamline Rails API development:
+**Hati Rails API** provides essential building blocks for Rails API development:
 
-### 🏗️ **Core Components**
+### 🎯 **Core Components**
 
-- **ApiOperation** - Structured operation patterns for business logic
-- **JsonApiError** - Standardized error handling and formatting
-- **ApiController helpers** - Common controller utilities and extensions
+- **ResponseHandler** - Unified response handling for operations with automatic success/error formatting
+- **Operation Integration** - Seamless integration with HatiOperation-based business logic
+- **JSON:API Error Support** - Standardized error responses via HatiJsonapiError integration
+- **Flexible Parameters** - Smart parameter handling for different Rails environments
 
-### 🔧 **Development Tools**
+### 🔧 **What it Does**
 
-- **Interactor/Operation Tool** - Clean service layer abstractions
-- **Service/Command Object** - Organized business logic patterns
-- **Service/Command Aggregator** - Compose complex operations
-- **Generators** - Rails generators for rapid scaffolding
+- Executes operations and automatically renders appropriate JSON responses
+- Handles both success and error scenarios with consistent formatting
+- Integrates with the Hati ecosystem (HatiOperation, HatiJsonapiError, HatiCommand)
+- Provides clean controller abstractions for API endpoints
 
 ## 📦 Installation
 
@@ -46,76 +47,122 @@ gem install hati-rails-api
 
 ## 🚀 Quick Start
 
+### Basic Usage
+
+Include the `ResponseHandler` in your API controllers:
+
 ```ruby
-# In your Rails API controller
 class Api::V1::UsersController < ApplicationController
   include HatiRailsApi::ResponseHandler
 
   def create
-    run_and_render CreateOperation
+    run_and_render CreateUserOperation
   end
-end
 
-# In your Rails API V2 controller
-class Api::V2::UsersController < ApplicationController
-  include HatiRailsApi::ResponseHandler
-
-  def create
-    run_and_render CreateOperation do
-      params CreateExtendedContract
-      step service: ProcessGlobalTransferService
-
-      on_success Macro.serializer[GlobalTransfer, status: 201]
-    end
+  def update
+    run_and_render UpdateUserOperation
   end
 end
 ```
 
-## 📚 Documentation
+### Operation Example
 
-### ApiOperation
-
-Structure your business logic with clean, testable operations:
+Your operations should follow the HatiOperation pattern:
 
 ```ruby
-class CreateOperation < ApiOperation
-  params CreateContract, err: 422
-
-  step query: Repo::User, err: 404
-  step service: ProcessTransferService, err: 503
-
-  on_success SerializerService.call(Transfer, status: 201)
-  on_failure ApiErrorSerializer
-
+class CreateUserOperation < HatiOperation::Base
   def call(params:)
-    user = step query.find_by_id(params[:id])
-    step service.call(user.id)
+    user = User.create!(params[:user])
+    HatiCommand::Result.success(user)
+  rescue ActiveRecord::RecordInvalid => e
+    HatiCommand::Result.failure(e.message)
   end
 end
 ```
 
-### JsonApiError
+### Advanced Usage with Block
 
-Standardized error responses following JSON:API specification:
+You can also pass a block to customize the operation execution:
 
 ```ruby
-# Automatically formats errors consistently
-render_api_error(errors, status: :unprocessable_entity)
+def create
+  run_and_render CreateUserOperation do
+    # Custom logic here
+    # The block will be passed to the operation
+  end
+end
 ```
 
-### Generators
+## 📚 API Reference
 
-Quickly scaffold API components:
+### ResponseHandler Module
 
-```bash
-rails generate hati_rails_api:controller Users
-rails generate hati_rails_api:operation CreateUser
+When included in a controller, provides:
+
+#### `run_and_render(operation, &block)`
+
+Executes an operation and renders the appropriate response:
+
+- **Success**: Renders `{ data: result }` with HTTP 200 (or custom status)
+- **Failure**: Renders error using HatiJsonapiError formatting
+
+**Parameters:**
+
+- `operation`: A HatiOperation class or HatiCommand::Result instance
+- `&block`: Optional block passed to the operation
+
+**Example:**
+
+```ruby
+# Simple operation call
+run_and_render MyOperation
+
+# With block
+run_and_render MyOperation do
+  # Custom logic
+end
+
+# With status override in operation result
+# Your operation can return: HatiCommand::Result.success(data, status: 201)
 ```
+
+### Error Handling
+
+The gem automatically configures HatiJsonapiError with sensible defaults:
+
+```ruby
+HatiJsonapiError::Config.configure do |config|
+  config.load_errors!
+  config.use_unexpected = HatiJsonapiError::InternalServerError
+end
+```
+
+Custom errors are defined in `HatiRailsApi::Errors` namespace.
 
 ## 🛠️ Requirements
 
 - **Ruby**: >= 3.0.0
-- **Rails**: Compatible with Rails API applications
+- **Rails**: API-compatible applications
+- **Dependencies**:
+  - `hati-jsonapi-error` - For structured error handling
+  - `hati-operation` - For operation patterns (optional)
+  - `hati-command` - For result objects (optional)
+
+## 🔧 Configuration
+
+Currently, the gem uses sensible defaults. Configuration options will be expanded in future versions.
+
+## 🏗️ Development Status
+
+This gem is currently in **beta** (v0.1.0.beta1). The API is stable but may evolve based on community feedback.
+
+### Roadmap
+
+- [ ] Enhanced configuration options
+- [ ] Additional response macros (204, 206, 207)
+- [ ] Custom error mapping
+- [ ] Performance optimizations
+- [ ] Comprehensive documentation
 
 ## 🤝 Contributing
 
@@ -123,9 +170,27 @@ We welcome contributions! Here's how you can help:
 
 1. **Fork** the repository
 2. **Create** a feature branch (`git checkout -b feature/amazing-feature`)
-3. **Commit** your changes (`git commit -m 'Add some amazing feature'`)
-4. **Push** to the branch (`git push origin feature/amazing-feature`)
-5. **Open** a Pull Request
+3. **Write tests** for your changes
+4. **Commit** your changes (`git commit -m 'Add some amazing feature'`)
+5. **Push** to the branch (`git push origin feature/amazing-feature`)
+6. **Open** a Pull Request
+
+### Development Setup
+
+```bash
+git clone https://github.com/hackico-ai/hati-rails-api.git
+cd hati-rails-api
+bundle install
+bundle exec rspec
+```
+
+## 🧪 Testing
+
+Run the test suite:
+
+```bash
+bundle exec rspec
+```
 
 ## 📝 License
 
@@ -133,8 +198,14 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 
 ## 👥 Authors
 
-- [**Mariya Giy**](https://github.com/mariegiy) - [send email](mailto:giy.mariya@gmail.com)
-- [**Yuri Gi**](https://github.com/yurigitsu) - [send email](mailto:yurigi.pro@gmail.com)
+- [**Mariya Giy**](https://github.com/mariya-giy-github) - [giy.mariya@gmail.com](mailto:giy.mariya@gmail.com)
+- [**Yuri Gi**](https://github.com/yuriygiy) - [yurigi.pro@gmail.com](mailto:yurigi.pro@gmail.com)
+
+## 🔗 Related Projects
+
+- [**hati-jsonapi-error**](https://github.com/hackico-ai/hati-jsonapi-error) - JSON:API compliant error handling
+- [**hati-operation**](https://github.com/hackico-ai/hati-operation) - Structured operation patterns
+- [**hati-command**](https://github.com/hackico-ai/hati-command) - Command/result objects
 
 ## 🔗 Links
 
