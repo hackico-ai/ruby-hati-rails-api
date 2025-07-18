@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.name    = 'hati-rails-api'
   spec.version = HatiRailsApi::VERSION
   spec.authors = ['Mariya Giy', 'Yuri Gi']
-  spec.email   = %w[giy.mariya@gmail.com yurigi.pro@gmail.com]
+  spec.email   = ['giy.mariya@gmail.com', 'yurigi.pro@gmail.com']
   spec.license = 'MIT'
 
   spec.summary     = 'A Rails API tool for building API services.'
@@ -33,6 +33,8 @@ Gem::Specification.new do |spec|
 
   spec.metadata['rubygems_mfa_required'] = 'true'
 
-  # TODO: while in dev
+  # TODO: comment out while in dev
   # spec.add_dependency 'hati-command'
+  # spec.add_dependency 'hati-operation'
+  # spec.add_dependency 'hati-jsonapi-error'
 end

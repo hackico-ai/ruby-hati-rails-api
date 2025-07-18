@@ -1,80 +1,71 @@
 # frozen_string_literal: true
 
-require 'hati_command'
-require 'hati_operation'
+# require 'hati_operation'
 require 'pry'
+
+# TODO:
+## success macros:
+# - 200
+# - 201
+# - 204
+# - 206
+# - 207
+## on_failure & on_success result mappers
 
 module HatiRailsApi
   module ResponseHandler
-    # API operation helpers
+    # WIP: think about global configs
+    HatiJsonapiError::Config.configure do |config|
+      config.load_errors!
+      config.use_unexpected = HatiJsonapiError::InternalServerError
+      # WIP: map or preload from rails errors to statuses ???
+      # config.map_errors = {
+      #   ActiveRecord::RecordNotFound => :not_found,
+      #   ActiveRecord::RecordInvalid => :unprocessable_entity
+      # }
+    end
 
-    DEF_ERR = :internal_server_error
-    DEF_ERR_MSG = 'An unexpected error occurred'
-    DEF_SCS = :ok
-    DEF_SCS_MSG = 'Operation completed successfully'
+    def self.included(base)
+      base.include HatiJsonapiError::Helpers
+    end
 
     private
-
-    def run_and_render(operation, &block)
-      result = execute_operation(operation, &block)
-      result_value = result.value      
-      return render_success(result_value) if result.success?
-
-      status = result_value.try(:status) || DEF_ERR
-      render_error(result_value, status: status)
-    rescue StandardError => e
-      handle_unexpected_error(e)
-    end
-
-    def execute_operation(op, &block)
-      return op if op.is_a?(HatiCommand::Result)
-
-      # TODO: or check if it has rescpective obj API
-      raise Error::UnsupportedExec, op unless op < HatiOperation::Base
-
-      block_given? ? op.call(params: unsafe_params, &block) : op.call(params: unsafe_params)
-    end
 
     # WIP:
     def unsafe_params
       params.respond_to?(:permit) ? params.permit.to_unsafe_h : params
     end
 
-    # TODO: Error handler class
-    def handle_unexpected_error(error)
-      Rails.logger.error "Unexpected error in ResponseHandler: #{error.message}"
-      Rails.logger.error error.backtrace.join("\n")
+    # specific for api-errror lib !!!!
+    # WIP: debug access ??
+    def run_and_render(operation, &block)
+      result = run_operation(operation, &block)
+      result_value = result.value
+      status = result_value.try(:status)
 
-      render_error(
-        {
-          message: 'An unexpected error occurred',
-          details: error.message
-        },
-        status: :internal_server_error
-      )
-    end
-
-    def render_error(error, status: :unprocessable_entity)
-      error_response = normalize_error_response(error)
-
-      render json: { error: error_response }, status: status
-    end
-
-    def render_success(data)
-      render json: { data: data }, status: :ok
-    end
-
-    def normalize_error_response(error)
-      case error
-      when String
-        { message: error }
-      when Hash
-        error
-      when Array
-        { messages: error }
+      if result.success?
+        render_success(result_value, status: status)
       else
-        { message: error.to_s }
+        # WIP:
+        # render_error(result.error || result.value) ????
+        # setup error object with meta data ???
+        render_error(result.error)
       end
+    end
+
+    def run_operation(operation, &block)
+      return operation if operation.is_a?(HatiCommand::Result)
+      raise Errors::UnsupportedOperationError, operation unless operation < HatiOperation::Base
+
+      if block_given?
+        operation.call(params: unsafe_params, &block)
+      else
+        operation.call(params: unsafe_params)
+      end
+    end
+
+    def render_success(result_value, status: 200)
+      render json: { data: result_value }, status: status
     end
   end
 end
