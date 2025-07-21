@@ -1,10 +1,15 @@
 # frozen_string_literal: true
 
-# External dependencies
-require 'hati_jsonapi_error'
-require 'hati_command'
-require 'hati_operation'
+# external dependencies
+require 'rails/generators'
 
-# Internal files
+# internal dependencies
 require 'hati_rails_api/version'
 require 'hati_rails_api/response_handler'
+require 'hati_rails_api/context'
+
+# WIP:
+module HatiRailsApi
+  class Engine < Rails::Engine
+  end
+end

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-# require 'hati_operation'
-require 'pry'
+# Load pry only in development
+require 'pry' if defined?(Rails) && Rails.env.development?
 
 # TODO:
 ## success macros:
@@ -19,7 +19,7 @@ module HatiRailsApi
       config.load_errors!
       config.use_unexpected = HatiJsonapiError::InternalServerError
       # WIP: map or preload from rails errors to statuses ???
-      # config.map_errors = {
+      # config.map_errors =
       #   ActiveRecord::RecordNotFound => :not_found,
       #   ActiveRecord::RecordInvalid => :unprocessable_entity
       # }

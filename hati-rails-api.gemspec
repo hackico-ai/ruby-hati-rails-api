@@ -33,8 +33,7 @@ Gem::Specification.new do |spec|
 
   spec.metadata['rubygems_mfa_required'] = 'true'
 
-  # TODO: comment out while in dev
-  # spec.add_dependency 'hati-command'
-  # spec.add_dependency 'hati-operation'
-  # spec.add_dependency 'hati-jsonapi-error'
+  # Runtime dependencies
+  # spec.add_dependency 'hati_operation', '~> 1.0' # For step-based operation pattern
+  spec.add_dependency 'railties', '>= 6.0' # For Rails generators support
 end
