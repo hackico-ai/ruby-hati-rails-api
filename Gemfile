@@ -5,9 +5,9 @@ source 'https://rubygems.org'
 gemspec
 
 # ==================== DEV:HatiTools ====================
-gem 'hati-command',       git: 'https://github.com/hackico-ai/ruby-hati-command',       branch: 'dev'
-gem 'hati-jsonapi-error', git: 'https://github.com/hackico-ai/ruby-hati-jsonapi-error', branch: 'main'
-gem 'hati-operation',     git: 'https://github.com/hackico-ai/ruby-hati-operation',     branch: 'main'
+gem 'hati-command'
+gem 'hati-jsonapi-error'
+gem 'hati-operation'
 
 gem 'rake'
 
