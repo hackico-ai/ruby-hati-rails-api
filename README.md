@@ -32,22 +32,33 @@ Hati Rails API revolutionizes Rails API development by treating your entire API 
 ## Table of Contents
 
 - [Quick Start](#quick-start)
+  - [1. Install](#1-install)
+  - [2. Initialize](#2-initialize)
+  - [3. Create Migration](#3-create-migration)
+  - [4. Generate Code](#4-generate-code)
 - [Architecture Overview](#architecture-overview)
-- [What Makes It Different](#what-makes-it-different)
 - [Core Concepts](#core-concepts)
+  - [Migration Files](#migration-files)
+  - [Generated Structure](#generated-structure)
+  - [Rollback System](#rollback-system)
 - [Framework Components](#framework-components)
-- [Use Cases](#use-cases)
 - [AI-Powered Bootstrapping](#ai-powered-bootstrapping)
+  - [Intelligent Project Initialization](#intelligent-project-initialization)
+  - [Context-Aware Feature Addition](#context-aware-feature-addition)
+  - [Automated Testing Strategy Generation](#automated-testing-strategy-generation)
+  - [Deployment Configuration Generation](#deployment-configuration-generation)
+  - [AI Agent Tool Integration](#ai-agent-tool-integration)
 - [Examples](#examples)
   - [Basic User API](#basic-user-api)
-  - [E-commerce API](#e-commerce-api-with-ai-features)
+  - [E-commerce API with AI Features](#e-commerce-api-with-ai-features)
   - [Advanced Patterns](#advanced-patterns)
-- [AI Development Integration](#ai-development-integration)
+- [Use Cases](#use-cases)
 - [Testing](#testing)
-- [Architecture Benefits](#architecture-benefits)
+- [Authors](#authors)
 - [Development](#development)
 - [Contributing](#contributing)
 - [License](#license)
+- [Code of Conduct](#code-of-conduct)
 
 ---
 
@@ -276,109 +287,6 @@ rails generate hati_rails_api:context rollback --timestamp=20250121001327
     • Clean rollbacks<br>
     • No orphaned files<br>
     • Reliable state
-  </td>
-</tr>
-</table>
-
----
-
-## Use Cases
-
-<table>
-<tr>
-  <th width="25%" align="left">Use Case</th>
-  <th width="30%" align="left">Scenario</th>
-  <th width="30%" align="left">Key Benefits</th>
-  <th width="15%" align="left">Ideal For</th>
-</tr>
-
-<tr>
-  <td>
-    <strong>✅ Enterprise API Development</strong>
-  </td>
-  <td>
-    Large-scale applications requiring consistent API patterns across multiple teams
-  </td>
-  <td>
-    • Enforced architectural patterns<br>
-    • Version control for API structure<br>
-    • Safe production rollbacks<br>
-    • Consistent testing patterns
-  </td>
-  <td>
-    <em>Fortune 500 companies, large dev teams, complex business domains</em>
-  </td>
-</tr>
-
-<tr>
-  <td>
-    <strong>✅ Rapid Prototyping</strong>
-  </td>
-  <td>
-    Startup teams need to quickly iterate on API designs and business logic
-  </td>
-  <td>
-    • Generate complete APIs in minutes<br>
-    • Safe architectural experimentation<br>
-    • Instant rollback of failed experiments<br>
-    • Focus on business logic over boilerplate
-  </td>
-  <td>
-    <em>Startups, MVPs, proof-of-concepts, hackathons</em>
-  </td>
-</tr>
-
-<tr>
-  <td>
-    <strong>✅ AI-Assisted Development</strong>
-  </td>
-  <td>
-    Development teams working with AI coding assistants and autonomous agents
-  </td>
-  <td>
-    • Machine-readable API definitions<br>
-    • Safe AI experimentation environment<br>
-    • Consistent patterns AI can learn<br>
-    • Version control for AI changes
-  </td>
-  <td>
-    <em>Teams using Cursor, Copilot, or custom AI agents</em>
-  </td>
-</tr>
-
-<tr>
-  <td>
-    <strong>✅ Microservices Architecture</strong>
-  </td>
-  <td>
-    Building multiple interconnected services with consistent patterns
-  </td>
-  <td>
-    • Standardized service structure<br>
-    • Consistent inter-service communication<br>
-    • Unified testing strategies<br>
-    • Easy pattern replication
-  </td>
-  <td>
-    <em>Distributed systems, cloud-native apps, service mesh architectures</em>
-  </td>
-</tr>
-
-<tr>
-  <td>
-    <strong>✅ Legacy System Modernization</strong>
-  </td>
-  <td>
-    Gradually modernizing legacy systems with new API layers
-  </td>
-  <td>
-    • Incremental migration safety<br>
-    • Modern patterns alongside legacy code<br>
-    • Safe architectural experimentation<br>
-    • Clear old/new system separation
-  </td>
-  <td>
-    <em>Enterprise modernization, technical debt reduction, gradual refactoring</em>
   </td>
 </tr>
 </table>
@@ -619,20 +527,15 @@ end
 
 ---
 
-## AI Development Integration
+## Use Cases
 
-### Enhanced AI Assistance
-
-- **Context Awareness** — AI understands your full API structure
-- **Pattern Learning** — AI learns from your existing migrations
-- **Consistent Generation** — All AI-generated code follows your patterns
-- **Safe Iteration** — Try AI suggestions with instant rollback
-
-### Autonomous Development
-
-- **Self-Modifying APIs** — AI agents can create migrations to extend functionality
-- **Version Control** — Every change is tracked and reviewable
-- **Pattern Enforcement** — AI agents follow your established patterns
+| Use Case                           | Perfect For                                                             | Key Benefits                                                                                                                                                          |
+| ---------------------------------- | ----------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **✅ Enterprise API Development**  | Fortune 500 companies, large dev teams, complex business domains        | • Enforced architectural patterns<br>• Version control for API structure<br>• Safe production rollbacks<br>• Consistent testing patterns                              |
+| **✅ Rapid Prototyping**           | Startups, MVPs, proof-of-concepts, hackathons                           | • Generate complete APIs in minutes<br>• Safe architectural experimentation<br>• Instant rollback of failed experiments<br>• Focus on business logic over boilerplate |
+| **✅ AI-Assisted Development**     | Teams using Cursor, Copilot, or custom AI agents                        | • Machine-readable API definitions<br>• Safe AI experimentation environment<br>• Consistent patterns AI can learn<br>• Version control for AI changes                 |
+| **✅ Microservices Architecture**  | Distributed systems, cloud-native apps, service mesh architectures      | • Standardized service structure<br>• Consistent inter-service communication<br>• Unified testing strategies<br>• Easy pattern replication                            |
+| **✅ Legacy System Modernization** | Enterprise modernization, technical debt reduction, gradual refactoring | • Incremental migration safety<br>• Modern patterns alongside legacy code<br>• Safe architectural experimentation<br>• Clear old/new system separation                |
 
 ---
 
