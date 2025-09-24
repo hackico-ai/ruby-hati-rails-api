@@ -1,128 +1,577 @@
 # Hati Rails API
 
-Gem Version License: MIT
+[![Gem Version](https://badge.fury.io/rb/hati-rails-api.svg)](https://rubygems.org/gems/hati-rails-api)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](#license)
 
-Hati Rails API revolutionizes Rails API development by introducing **migration-driven architecture generation** - a paradigm that treats API structure as versioned, repeatable, and rollbackable code. Built specifically for the AI era, it transforms how developers and AI agents collaborate on building robust, scalable Rails APIs.
+**Migration-driven Rails API development for the AI era.**
 
-## The Migration-Driven API Revolution
+Hati Rails API revolutionizes Rails API development by treating your entire API structure as versioned, repeatable, and rollbackable code. Built specifically for AI-assisted development, it enables developers and AI agents to collaborate on building robust, scalable Rails APIs with confidence.
 
-Traditional Rails API development is ad-hoc and inconsistent. Hati Rails API changes this by introducing:
+---
 
-- **API as Code** – Define your entire API structure in migration files that can be versioned, shared, and automated
-- **AI-Native Design** – Every pattern is explicit, declarative, and machine-readable for optimal AI collaboration
-- **Instant Rollback** – Safely experiment with AI-generated APIs knowing you can revert any change
-- **Pattern Consistency** – Enforce architectural patterns across your entire API surface automatically
+### Migration-Driven Architecture
 
-## The Hati Rails API Architecture
+- **API as Code** — Your entire API structure lives in versioned migration files
+- **Instant Rollback** — Safely experiment knowing you can revert any change
+- **Pattern Consistency** — Enforce architectural patterns across your entire API
 
-Hati Rails API introduces a revolutionary approach to Rails API development through migration-driven generation:
+### AI-Native Design
 
-```
-─────────────────────────────────────────────────────────────────────────────────────────────────
-│                           Hati Rails API - Migration-Driven Architecture                       │
-├─────────────────────────────────────────────────────────────────────────────────────────────── |
-│                                                                                                │
-│  #Migration Files (config/contexts/)                           #Generated API Structure        │
-│  ┌─────────────────────────────────────-┐                    ┌─────────────────────────────┐   │
-│  │  20250121001327_ecommerce.rb         │                    │   Controllers               │   │
-│  │  ┌─────────────────────────────────┐ │     ┌─────────┐    │  ├─ Api::EcommerceController│   │
-│  │  │ domain :ecommerce do |domain|   │ │────▶│   Hati  │──▶ │  ├─ Api::UserController     │   │
-│  │  │   domain.operation [:checkout]  │ │     │  Rails  │    │  └─ Api::OrderController    │   │
-│  │  │   domain.endpoint true          │ │     │   API   │    └─────────────────────────────┘   │
-│  │  │   domain.model true             │ │     │  Engine │                   │                  |
-│  │  │ end                             │ │     └─────────┘    ┌──────────────────────────────┐  │
-│  │  └─────────────────────────────────┘ │                    │    Operations                │  │
-│  └─────────────────────────────────────-┘                    │  ├─ Ecommerce::Checkout      │  │
-│                                                              │  ├─ User::Create             │  │
-│  ┌──────────────────────────────────────┐                    │  └─ Order::Process           │  │
-│  │     20250121001328_user.rb           │                    └──────────────────────────────┘  │
-│  │  ┌─────────────────────────────────┐ │                                   │                  |
-│  │  │ domain :user do |domain|        │ │                    ┌─────────────────────────────┐   │
-│  │  │   domain.operation [:create]    │ │                    │    Models                   │   │
-│  │  │   domain.validation             │ │                    │  ├─ User                    │   │
-│  │  │   domain.service                │ │                    │  ├─ Order                   │   │
-│  │  │ end                             │ │                    │  └─ Product                 │   │
-│  │  └─────────────────────────────────┘ │                    └─────────────────────────────┘   │
-│  └──────────────────────────────────────┘                                   │                  |
-│                                                                             │                  |
-│  #Rollback System                                             ┌─────────────────────────────┐  │
-│  ┌─────────────────────────────────────┐                      │    Validations              │  │
-│  │  Migration Tracking                 │                      │  ├─ PaymentValidator        │  │
-│  │  ├─ Timestamp: 20250121001327       │                      │  ├─ UserValidator           │  │
-│  │  ├─ Files Generated: 15             │                      │  └─ OrderValidator          │  │
-│  │  ├─ Rollback: rails generate ...    │                      └─────────────────────────────┘  │
-│  │  └─ Status: Applied                 │                                    │                  |
-│  └─────────────────────────────────────┘                      ┌─────────────────────────────┐  │
-│                                                               │   Services                  │  │
-│                                                               │  ├─ PaymentGateway          │  │
-│                                                               │  ├─ EmailNotification       │  │
-│                                                               │  └─ InventoryManager        │  │
-│                                                               └─────────────────────────────┘  │
-│                                                                                                │
-├───────────────────────────────────────────────────────────────────────────────────────────────-|
-│   AI Integration Features                                                                      │
-│  • Explicit Patterns for AI Understanding          • Safe Rollback for AI Experimentation      │
-│  • Machine-Readable Definitions                    • Versioned API Evolution                   │
-│  • Context-Aware Code Generation                   • Consistent Architecture Enforcement       │
-─────────────────────────────────────────────────────────────────────────────────────────────────-
-```
+- **Machine-Readable** — Every pattern is explicit and declarative for optimal AI collaboration
+- **Predictable Structure** — AI tools understand and generate consistent code
+- **Safe Experimentation** — AI can try new patterns with instant rollback capability
 
-## Getting Started with Migration-Driven APIs
+### Rails-Native Integration
 
-### 1. Install the Gem
+- **Rails Conventions** — Follows Rails patterns throughout
+- **ActiveRecord Integration** — Seamless database layer integration
+- **Familiar Generators** — Uses Rails generator patterns you already know
 
-Add to your Gemfile:
+---
+
+## Table of Contents
+
+- [Quick Start](#quick-start)
+- [Architecture Overview](#architecture-overview)
+- [What Makes It Different](#what-makes-it-different)
+- [Core Concepts](#core-concepts)
+- [Framework Components](#framework-components)
+- [Use Cases](#use-cases)
+- [AI-Powered Bootstrapping](#ai-powered-bootstrapping)
+- [Examples](#examples)
+  - [Basic User API](#basic-user-api)
+  - [E-commerce API](#e-commerce-api-with-ai-features)
+  - [Advanced Patterns](#advanced-patterns)
+- [AI Development Integration](#ai-development-integration)
+- [Testing](#testing)
+- [Architecture Benefits](#architecture-benefits)
+- [Development](#development)
+- [Contributing](#contributing)
+- [License](#license)
+
+---
+
+## Quick Start
+
+### 1. Install
 
 ```ruby
+# Gemfile
 gem 'hati-rails-api'
 ```
-
-Then run:
 
 ```bash
 bundle install
 ```
 
-### 2. Initialize the Context System
+### 2. Initialize
 
 ```bash
 rails generate hati_rails_api:context init
 ```
 
-This creates:
-
-- `config/contexts.rb` (global configuration)
-- `config/contexts/` (migration files directory)
-- `app/contexts/` (generated API code)
-
-### 3. Create Your First API Migration
-
-Generate a migration for a domain:
+### 3. Create Migration
 
 ```bash
 rails generate hati_rails_api:context user --operations=create,update,delete
 ```
 
-### 4. Run Migrations
-
-Generate all API code from migrations:
+### 4. Generate Code
 
 ```bash
 rails generate hati_rails_api:context run --force
 ```
 
-### 5. Rollback (if needed)
+---
 
-```bash
-rails generate hati_rails_api:context rollback --timestamp=YOUR_TIMESTAMP
+## Architecture Overview
+
+Hati Rails API introduces a migration-driven approach where your entire API structure is defined in versioned migration files that generate complete, consistent code structures.
+
+```
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                          Hati Rails API Architecture                            │
+├─────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                 │
+│  Migration Files (config/contexts/)          Generated API Structure            │
+│  ┌─────────────────────────────────┐       ┌─────────────────────────────────┐  │
+│  │                                 │       │                                 │  │
+│  │  20250121001327_user_api.rb     │       │  Controllers                    │  │
+│  │  ┌─────────────────────────────┐│       │  ├─ Api::UserController         │  │
+│  │  │ domain :user do |domain|    ││  ───▶ │  ├─ Api::OrderController        │  │
+│  │  │   domain.operation [...]    ││       │  └─ Api::ProductController      │  │
+│  │  │   domain.endpoint true      ││       │                                 │  │
+│  │  │   domain.model true         ││       │  Operations                     │  │
+│  │  │ end                         ││       │  ├─ User::Create                │  │
+│  │  └─────────────────────────────┘│       │  ├─ User::Update                │  │
+│  │                                 │       │  └─ User::Delete                │  │
+│  │  20250121001328_order_api.rb    │       │                                 │  │
+│  │  ┌─────────────────────────────┐│       │  Models                         │  │
+│  │  │ domain :order do |domain|   ││       │  ├─ User                        │  │
+│  │  │   domain.operation [...]    ││       │  ├─ Order                       │  │
+│  │  │   domain.service [...]      ││       │  └─ Product                     │  │
+│  │  │ end                         ││       │                                 │  │
+│  │  └─────────────────────────────┘│       │  Services                       │  │
+│  └─────────────────────────────────┘       │  ├─ PaymentService              │  │
+│                                            │  ├─ NotificationService         │  │
+│  Rollback System                           │  └─ InventoryService            │  │
+│  ┌─────────────────────────────────┐       │                                 │  │
+│  │  Migration Tracking             │       │  Validations                    │  │
+│  │  ├─ Timestamp: 20250121001327   │       │  ├─ UserValidator               │  │
+│  │  ├─ Files Generated: 15         │       │  ├─ OrderValidator              │  │
+│  │  ├─ Rollback Command Available  │       │  └─ PaymentValidator            │  │
+│  │  └─ Status: Applied             │       │                                 │  │
+│  └─────────────────────────────────┘       └─────────────────────────────────┘  │
+│                                                                                 │
+├─────────────────────────────────────────────────────────────────────────────────┤
+│  Key Features                                                                   │
+│  • Migration-Driven Architecture    • AI-Native Design                          │
+│  • Instant Rollback Capabilities    • Rails Convention Compliance               │
+│  • Pattern Consistency Enforcement  • Comprehensive Test Generation             │
+└─────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-## Real-World Examples
+## Core Concepts
 
-### E-commerce API with AI Integration
+### Migration Files
+
+Define your API structure in timestamped migration files:
 
 ```ruby
-# config/contexts/20250121001327_ecommerce_api.rb
+# config/contexts/20250121001327_create_user_api.rb
+class CreateUserApi < HatiRailsApi::Context::Migration
+  def change
+    domain :user do |domain|
+      domain.operation do |operation|
+        operation.component [:create, :update, :delete]
+      end
+      domain.endpoint true
+      domain.model true
+      domain.validation
+      domain.service
+    end
+  end
+end
+```
+
+### Generated Structure
+
+This creates a complete API structure:
+
+```
+app/
+├── contexts/user/
+│   ├── operation/
+│   │   ├── create_operation.rb
+│   │   ├── update_operation.rb
+│   │   └── delete_operation.rb
+│   ├── validation/
+│   └── service/
+├── controllers/api/
+│   └── user_controller.rb
+└── models/
+    └── user.rb
+```
+
+### Rollback System
+
+Every migration is tracked and can be safely rolled back:
+
+```bash
+rails generate hati_rails_api:context rollback --timestamp=20250121001327
+```
+
+---
+
+## Framework Components
+
+<table>
+<tr>
+  <th width="20%">Component</th>
+  <th width="25%">Purpose</th>
+  <th width="35%">Key Features</th>
+  <th width="20%">Benefits</th>
+</tr>
+
+<tr>
+  <td><strong>Context System</strong></td>
+  <td>Domain organization and structure definition</td>
+  <td>
+    • Domain-driven organization<br>
+    • Migration-based definitions<br>
+    • Custom layer support<br>
+    • Extensible architecture
+  </td>
+  <td>
+    • Centralized domain logic<br>
+    • Clear boundaries<br>
+    • Scalable structure<br>
+    • Easy customization
+  </td>
+</tr>
+
+<tr>
+  <td><strong>Migration Engine</strong></td>
+  <td>Version control for API structure</td>
+  <td>
+    • Timestamped migrations<br>
+    • Class-based definitions<br>
+    • Rollback support<br>
+    • Change tracking
+  </td>
+  <td>
+    • Repeatable deployments<br>
+    • Safe evolution<br>
+    • Version history<br>
+    • Team collaboration
+  </td>
+</tr>
+
+<tr>
+  <td><strong>Layer System</strong></td>
+  <td>Modular architecture components</td>
+  <td>
+    • Operations (business logic)<br>
+    • Services (integrations)<br>
+    • Validations (input rules)<br>
+    • Queries (data retrieval)<br>
+    • Serializers (formatting)
+  </td>
+  <td>
+    • Clean separation<br>
+    • Modular design<br>
+    • Easy testing<br>
+    • Reusable components
+  </td>
+</tr>
+
+<tr>
+  <td><strong>Response Handler</strong></td>
+  <td>Consistent API responses</td>
+  <td>
+    • JSON:API compliance<br>
+    • Standardized formatting<br>
+    • Error handling<br>
+    • Type safety
+  </td>
+  <td>
+    • Consistent interfaces<br>
+    • Clean error messages<br>
+    • Predictable responses<br>
+    • Better debugging
+  </td>
+</tr>
+
+<tr>
+  <td><strong>Rollback Manager</strong></td>
+  <td>Safe change management</td>
+  <td>
+    • File tracking<br>
+    • Safe removal<br>
+    • Directory cleanup<br>
+    • State management
+  </td>
+  <td>
+    • Risk-free experimentation<br>
+    • Clean rollbacks<br>
+    • No orphaned files<br>
+    • Reliable state
+  </td>
+</tr>
+</table>
+
+---
+
+## Use Cases
+
+<table>
+<tr>
+  <th width="25%" align="left">Use Case</th>
+  <th width="30%" align="left">Scenario</th>
+  <th width="30%" align="left">Key Benefits</th>
+  <th width="15%" align="left">Ideal For</th>
+</tr>
+
+<tr>
+  <td>
+    <strong>✅ Enterprise API Development</strong>
+  </td>
+  <td>
+    Large-scale applications requiring consistent API patterns across multiple teams
+  </td>
+  <td>
+    • Enforced architectural patterns<br>
+    • Version control for API structure<br>
+    • Safe production rollbacks<br>
+    • Consistent testing patterns
+  </td>
+  <td>
+    <em>Fortune 500 companies, large dev teams, complex business domains</em>
+  </td>
+</tr>
+
+<tr>
+  <td>
+    <strong>✅ Rapid Prototyping</strong>
+  </td>
+  <td>
+    Startup teams need to quickly iterate on API designs and business logic
+  </td>
+  <td>
+    • Generate complete APIs in minutes<br>
+    • Safe architectural experimentation<br>
+    • Instant rollback of failed experiments<br>
+    • Focus on business logic over boilerplate
+  </td>
+  <td>
+    <em>Startups, MVPs, proof-of-concepts, hackathons</em>
+  </td>
+</tr>
+
+<tr>
+  <td>
+    <strong>✅ AI-Assisted Development</strong>
+  </td>
+  <td>
+    Development teams working with AI coding assistants and autonomous agents
+  </td>
+  <td>
+    • Machine-readable API definitions<br>
+    • Safe AI experimentation environment<br>
+    • Consistent patterns AI can learn<br>
+    • Version control for AI changes
+  </td>
+  <td>
+    <em>Teams using Cursor, Copilot, or custom AI agents</em>
+  </td>
+</tr>
+
+<tr>
+  <td>
+    <strong>✅ Microservices Architecture</strong>
+  </td>
+  <td>
+    Building multiple interconnected services with consistent patterns
+  </td>
+  <td>
+    • Standardized service structure<br>
+    • Consistent inter-service communication<br>
+    • Unified testing strategies<br>
+    • Easy pattern replication
+  </td>
+  <td>
+    <em>Distributed systems, cloud-native apps, service mesh architectures</em>
+  </td>
+</tr>
+
+<tr>
+  <td>
+    <strong>✅ Legacy System Modernization</strong>
+  </td>
+  <td>
+    Gradually modernizing legacy systems with new API layers
+  </td>
+  <td>
+    • Incremental migration safety<br>
+    • Modern patterns alongside legacy code<br>
+    • Safe architectural experimentation<br>
+    • Clear old/new system separation
+  </td>
+  <td>
+    <em>Enterprise modernization, technical debt reduction, gradual refactoring</em>
+  </td>
+</tr>
+</table>
+
+---
+
+## AI-Powered Bootstrapping
+
+### Intelligent Project Initialization
+
+Hati Rails API enables AI agents to bootstrap entire projects based on high-level requirements:
+
+```ruby
+# AI can generate this from: "Create an e-commerce API with user management,
+# product catalog, and order processing"
+class BootstrapEcommerceApi < HatiRailsApi::Context::Migration
+  def change
+    # User management domain
+    domain :user do |domain|
+      domain.operation do |operation|
+        operation.component [:register, :authenticate, :update_profile]
+      end
+      domain.endpoint true
+      domain.model true
+      domain.validation { |v| v.component [:email_validator, :password_validator] }
+      domain.service { |s| s.component [:auth_service, :profile_service] }
+    end
+
+    # Product catalog domain
+    domain :product do |domain|
+      domain.operation do |operation|
+        operation.component [:create, :update, :search, :categorize]
+      end
+      domain.endpoint true
+      domain.model true
+      domain.query { |q| q.component [:product_finder, :category_filter] }
+      domain.service { |s| s.component [:inventory_service, :pricing_service] }
+    end
+
+    # Order processing domain
+    domain :order do |domain|
+      domain.operation do |operation|
+        operation.component [:create, :process_payment, :fulfill, :cancel]
+        operation.step true, granular: true
+      end
+      domain.endpoint true
+      domain.model true
+      domain.validation { |v| v.component [:payment_validator, :inventory_validator] }
+      domain.service { |s| s.component [:payment_gateway, :shipping_service] }
+    end
+
+    # Additional models and endpoints
+    model [:cart, :payment, :shipping_address, :order_item]
+    endpoint [:order_status, :payment_webhook, :inventory_alert]
+  end
+end
+```
+
+### Context-Aware Feature Addition
+
+AI agents can analyze existing migrations and add complementary features:
+
+```ruby
+# AI analyzes existing user and product domains, then adds:
+class AddRecommendationSystem < HatiRailsApi::Context::Migration
+  def change
+    domain :recommendation do |domain|
+      domain.operation do |operation|
+        operation.component [:generate_recommendations, :track_interactions, :update_preferences]
+      end
+      domain.service do |service|
+        service.component [:ml_engine, :preference_analyzer, :collaborative_filter]
+      end
+      domain.query { |q| q.component [:recommendation_finder, :interaction_tracker] }
+    end
+
+    # Extend existing domains with recommendation capabilities
+    extend_domain :user do |domain|
+      domain.service { |s| s.add_component :recommendation_service }
+    end
+
+    extend_domain :product do |domain|
+      domain.query { |q| q.add_component :recommendation_query }
+    end
+  end
+end
+```
+
+### Automated Testing Strategy Generation
+
+AI can generate comprehensive testing strategies based on the migration structure:
+
+```ruby
+# AI generates test migrations alongside feature migrations
+class GenerateTestingInfrastructure < HatiRailsApi::Context::Migration
+  def change
+    testing_domain :api_integration do |domain|
+      domain.test_suite do |suite|
+        suite.component [:endpoint_tests, :authentication_tests, :authorization_tests]
+        suite.coverage :comprehensive
+        suite.mock_external_services true
+      end
+    end
+
+    testing_domain :performance do |domain|
+      domain.benchmark do |benchmark|
+        benchmark.component [:response_time, :throughput, :memory_usage]
+        benchmark.scenarios [:normal_load, :peak_load, :stress_test]
+      end
+    end
+  end
+end
+```
+
+### Deployment Configuration Generation
+
+AI can create deployment configurations based on the API structure:
+
+```ruby
+class GenerateDeploymentConfig < HatiRailsApi::Context::Migration
+  def change
+    deployment_domain :infrastructure do |domain|
+      domain.container do |container|
+        container.component [:api_service, :background_jobs, :database]
+        container.scaling :auto
+        container.health_checks true
+      end
+
+      domain.monitoring do |monitoring|
+        monitoring.component [:metrics, :logging, :alerting]
+        monitoring.dashboards [:api_performance, :business_metrics, :error_tracking]
+      end
+    end
+  end
+end
+```
+
+### AI Agent Tool Integration
+
+Enable AI agents to modify and extend APIs autonomously:
+
+```ruby
+class CreateAgentToolsApi < HatiRailsApi::Context::Migration
+  def change
+    domain :agent_tools do |domain|
+      # Safe database operations for AI agents
+      domain.operation do |operation|
+        operation.component [:safe_query, :safe_update, :analyze_data]
+        operation.safety_checks true
+        operation.audit_logging true
+      end
+
+      # AI agent capabilities
+      domain.service do |service|
+        service.component [:query_builder, :data_analyzer, :report_generator]
+        service.rate_limiting true
+        service.permission_checking true
+      end
+
+      domain.validation { |v| v.component [:query_validator, :safety_checker] }
+    end
+
+    # Audit trail for AI operations
+    model [:agent_operation_log, :safety_check_result, :permission_audit]
+  end
+end
+```
+
+---
+
+## Examples
+
+### Basic User API
+
+```ruby
+class CreateUserApi < HatiRailsApi::Context::Migration
+  def change
+    domain :user do |domain|
+      domain.operation do |operation|
+        operation.component [:create, :authenticate, :update_profile]
+      end
+      domain.endpoint true
+      domain.model true
+      domain.validation
+      domain.serializer
+    end
+  end
+end
+```
+
+### E-commerce API with AI Features
+
+```ruby
 class CreateEcommerceApi < HatiRailsApi::Context::Migration
   def change
     domain :ecommerce do |domain|
@@ -132,455 +581,109 @@ class CreateEcommerceApi < HatiRailsApi::Context::Migration
         operation.step true, granular: true
       end
 
-      # AI-powered features
+      # AI-powered services
       domain.service do |service|
-        service.component [:recommendation_engine, :price_optimizer, :fraud_detector]
+        service.component [:recommendation_engine, :fraud_detector]
       end
-
-      # Standard Rails components
-      domain.endpoint true
-      domain.model true
-      domain.validation { |v| v.component [:payment_validator, :inventory_validator] }
-      domain.query { |q| q.component [:product_finder, :order_analyzer] }
-      domain.serializer { |s| s.component [:product_serializer, :order_serializer] }
-    end
-
-    # Additional models and endpoints
-    model [:product, :order, :payment, :inventory]
-    endpoint [:order_status, :payment_webhook, :inventory_alert]
-  end
-end
-
-CreateEcommerceApi.new.run
-```
-
-### AI-Powered Content Management API
-
-```ruby
-# config/contexts/20250121001328_cms_api.rb
-class CreateCmsApi < HatiRailsApi::Context::Migration
-  def change
-    domain :content_management do |domain|
-      # AI-enhanced content operations
-      domain.operation do |operation|
-        operation.component [:generate_content, :optimize_seo, :translate_content]
-        operation.step true, granular: true
-      end
-
-      # AI services
-      domain.service do |service|
-        service.component [:ai_writer, :seo_analyzer, :translation_service]
-      end
-
-      # Content validation and processing
-      domain.validation { |v| v.component [:content_validator, :seo_validator] }
-      domain.query { |q| q.component [:content_search, :trending_finder] }
 
       domain.endpoint true
       domain.model true
+      domain.validation { |v| v.component [:payment_validator] }
     end
 
-    model [:article, :category, :tag, :seo_metadata]
-    endpoint [:content_analytics, :ai_suggestions]
+    model [:product, :order, :payment]
+    endpoint [:order_status, :payment_webhook]
   end
 end
-
-CreateCmsApi.new.run
 ```
 
-## Framework Components & How They Work Together
-
-### Context System
-
-Centralizes domain logic, boundaries, and code generation. You define “contexts” (domains) in migration files. Each context can have operations, endpoints, models, and any number of custom layers (service, query, validation, serializer, etc.).
-
-### Migration Engine
-
-Provides a migration-style, repeatable, and rollbackable way to define and evolve your API structure. Migration files (class-based or DSL) describe what to generate. Running migrations creates or updates code; rollbacks revert changes.
-
-### Generator
-
-Orchestrates the actual file generation, tracking, and rollback. Reads migration files, generates code (models, controllers, operations, etc.), and tracks what was created for safe rollback.
-
-### Layer System
-
-Supports modular, extensible architecture. Built-in layers include:
-
-- **Operation:** Business logic, step-based or simple
-- **Service:** Application services, integrations
-- **Query:** Data access/query objects
-- **Validation:** Input/business validation
-- **Serializer:** Output formatting
-- **Custom:** Add your own (analytics, repository, etc.)
-
-### ResponseHandler
-
-Standardizes API responses and error handling. Controllers include this module to automatically handle operation results, errors, and JSON:API formatting.
-
-### Rollback Manager
-
-Enables safe, timestamped rollback of generated code. Tracks every file generated by a migration. Rollbacks remove files and clean up empty directories.
-
-### Macro System
-
-Provides reusable code patterns and metaprogramming helpers. Macros can be used in operations, layers, or anywhere in the context system to DRY up code and enforce patterns.
-
-### Error Handling
-
-Centralizes error types and handling logic. Custom error classes for unsupported operations, configuration issues, and more. Integrated with ResponseHandler for clean API error responses.
-
-### Versioning
-
-Tracks the version of the Hati Rails API gem. Ensures agents and humans know which features and patterns are available.
-
-**How They Work Together:**
-
-- You define your API’s structure and patterns in migration files.
-- The Migration Engine and Generator read these files, using the Layer System to create all necessary code (operations, models, controllers, etc.).
-- ResponseHandler ensures all endpoints behave consistently.
-- Rollback Manager lets you safely undo changes, supporting rapid, iterative, and agent-driven development.
-- Macros and Error Handling provide reusable patterns and robust error management.
-- Versioning ensures compatibility and traceability.
-
-The result is a highly modular, pattern-driven, and automation-friendly Rails API framework—ready for both human and AI/agentic development at scale.
-
-## Quick Start
-
-### 1. Install the Gem
-
-Add to your Gemfile:
+### Advanced Patterns
 
 ```ruby
-gem 'hati-rails-api'
-```
-
-Then run:
-
-```bash
-bundle install
-```
-
-### 2. Initialize the Context System
-
-```bash
-rails generate hati_rails_api:context init
-```
-
-This creates:
-
-- `config/contexts.rb` (global config)
-- `config/contexts/` (migration files go here)
-- `app/contexts/` (generated code)
-
-### 3. Create a Migration File
-
-Generate a migration for a domain:
-
-```bash
-rails generate hati_rails_api:context user --operations=create,update,delete
-```
-
-Edit the generated file in `config/contexts/` to define your domain, operations, and layers.
-
-### 4. Run Migrations
-
-Generate all code from migrations:
-
-```bash
-rails generate hati_rails_api:context run --force
-```
-
-### 5. Rollback (if needed)
-
-```bash
-rails generate hati_rails_api:context rollback --timestamp=YOUR_TIMESTAMP
-```
-
-## What Makes Hati Rails API Unique
-
-### Migration-Driven API Development
-
-Unlike traditional Rails API development, Hati Rails API treats your entire API structure as versioned, repeatable code:
-
-- **Versioned API Evolution** – Track every change to your API structure with timestamps and rollback capabilities
-- **Consistent Architecture** – Enforce the same patterns across all your API endpoints automatically
-- **AI-Friendly Definitions** – Every API structure is defined in machine-readable, declarative format
-- **Instant Experimentation** – Try new API patterns knowing you can rollback instantly
-
-### Rails-Native Integration
-
-Built specifically for Rails, not adapted from other frameworks:
-
-- **Rails Conventions** – Follows Rails patterns and conventions throughout
-- **ActiveRecord Integration** – Seamless integration with Rails models and database layer
-- **Rails Generators** – Uses familiar Rails generator patterns for consistency
-- **Rails Testing** – Generated code follows Rails testing best practices
-
-### AI Development Superpowers
-
-Designed from the ground up for AI-assisted development:
-
-- **Explicit Patterns** – Every API pattern is clearly defined and machine-readable
-- **Predictable Structure** – AI tools can understand and generate consistent API code
-- **Safe Experimentation** – Rollback any AI-generated changes instantly
-- **Context Preservation** – AI tools understand the full context of your API structure
-
-## Basic Usage Example
-
-A migration file (class-based, AI/agentic-ready):
-
-```ruby
-# config/contexts/20250721001327_create_user_context.rb
-class CreateUserContext < HatiRailsApi::Context::Migration
-  def change
-    domain :user do |domain|
-      domain.operation do |operation|
-        operation.component [:create, :update, :delete]
-      end
-      domain.endpoint true
-      domain.model true
-      domain.validation
-      domain.query
-      domain.service
-      domain.serializer
-    end
-    model [:user, :user_token]
-    endpoint [:user_status]
-  end
-end
-
-CreateUserContext.new.run
-```
-
-This will generate:
-
-- Operations: `app/contexts/user/operation/create_operation.rb`, etc.
-- Controller: `app/controllers/api/user_controller.rb`
-- Models: `app/models/user.rb`, `app/models/user_token.rb`
-- Additional layers: `app/contexts/user/validation/`, `query/`, `service/`, `serializer/`
-
-## Advanced Usage & Patterns
-
-### Granular/Agentic Steps
-
-You can use granular steps to patternize operation logic based on other layers:
-
-```ruby
-domain.operation do |operation|
-  operation.component [:authenticate, :authorize]
-  operation.step true, granular: true # Will use all other domain layers as steps
-end
-```
-
-### Custom Layers
-
-Add any custom layer to your domain:
-
-```ruby
+# Custom layers
 domain.analytics do |analytics|
   analytics.component [:event_tracker, :report_generator]
 end
-```
 
-### Explicit Steps
-
-```ruby
+# Explicit steps
 domain.operation do |operation|
   operation.component [:register]
   operation.step :validate, :persist, :notify
 end
-```
 
-### AI Agent Tool Integration
-
-```ruby
-class Agent::Context::DatabaseApi < HatiRailsApi::Context::Migration
-  def change
-    domain :agent_tools do |domain|
-      # Register tool capabilities for AI agents
-      domain.operation do |operation|
-        operation.component [:query_database, :update_records, :analyze_data]
-        operation.step true, granular: true
-      end
-      domain.endpoint true
-      domain.model true
-      domain.validation { |v| v.component [:query_validator, :safety_checker] }
-      domain.service { |s| s.component [:safe_executor, :audit_logger] }
-    end
-    model [:query_log, :audit_trail]
-    endpoint [:tool_status, :execution_metrics]
-  end
+# Granular steps (uses all domain layers as steps)
+domain.operation do |operation|
+  operation.step true, granular: true
 end
 ```
 
-### AI Assistant Integration
+---
+
+## AI Development Integration
+
+### Enhanced AI Assistance
+
+- **Context Awareness** — AI understands your full API structure
+- **Pattern Learning** — AI learns from your existing migrations
+- **Consistent Generation** — All AI-generated code follows your patterns
+- **Safe Iteration** — Try AI suggestions with instant rollback
+
+### Autonomous Development
+
+- **Self-Modifying APIs** — AI agents can create migrations to extend functionality
+- **Version Control** — Every change is tracked and reviewable
+- **Pattern Enforcement** — AI agents follow your established patterns
+
+---
+
+## Testing
+
+Comprehensive test suites are generated for all components:
 
 ```ruby
-class Assistant::Context::CodeReviewApi < HatiRailsApi::Context::Migration
-  def change
-    domain :code_review do |domain|
-      # Structured for AI assistant comprehension
-      domain.operation do |operation|
-        operation.component [:analyze_code, :generate_review, :format_feedback]
-        operation.step true, granular: true
-      end
-      domain.endpoint true
-      domain.model true
-      domain.validation { |v| v.component [:code_validator] }
-      domain.service { |s| s.component [:code_analyzer, :review_generator] }
-    end
-    model [:code_snippet, :review_comment]
-    endpoint [:review_status]
-  end
-end
-```
-
-### Full Example: Scalable, AI-Ready Context
-
-```ruby
-class CreateEcommerceContext < HatiRailsApi::Context::Migration
-  def change
-    domain :ecommerce do |domain|
-      domain.operation do |operation|
-        operation.component [:checkout, :refund]
-        operation.step true, granular: true
-      end
-      domain.endpoint true
-      domain.model true
-      domain.validation { |v| v.component [:payment_validator] }
-      domain.query { |q| q.component [:order_finder] }
-      domain.service { |s| s.component [:payment_gateway] }
-      domain.analytics { |a| a.component [:sales_reporter] }
-    end
-    model [:order, :payment]
-    endpoint [:order_status]
-  end
-end
-
-CreateEcommerceContext.new.run
-```
-
-## AI Development Workflow Integration
-
-### Cursor IDE Integration
-
-Hati Rails API's migration-driven approach creates the perfect environment for Cursor:
-
-- **Context-Aware Suggestions** – Cursor understands your entire API structure through migration files
-- **Pattern Recognition** – AI can suggest consistent patterns based on your existing migrations
-- **Safe Code Generation** – Generate new API endpoints knowing you can rollback if needed
-- **Intelligent Refactoring** – AI can suggest and implement API structure improvements
-
-### GitHub Copilot Enhancement
-
-Copilot becomes significantly more effective with Hati Rails API:
-
-- **Predictable Code Patterns** – Copilot learns your API patterns from migration files
-- **Consistent Suggestions** – All generated code follows your established patterns
-- **Migration-Aware Completions** – Copilot understands the relationship between migrations and generated code
-- **Test Generation** – Copilot can generate tests that match your API structure
-
-### Autonomous Agent Development
-
-Perfect for building AI agents that can modify and extend APIs:
-
-- **Self-Modifying APIs** – Agents can create new migrations to extend API functionality
-- **Safe Experimentation** – Agents can try new patterns with instant rollback capability
-- **Pattern Learning** – Agents can learn from existing migrations to generate consistent code
-- **Version Control** – Every agent modification is tracked and can be reviewed
-
-## Testing Your Migration-Driven APIs
-
-Hati Rails API generates comprehensive test suites for all your API components:
-
-```ruby
-# Generated test for ecommerce operations
-RSpec.describe Ecommerce::Operation::Checkout do
+# Generated operation test
+RSpec.describe User::Operation::Create do
   describe "#call" do
-    it "processes checkout with payment validation" do
-      result = described_class.call(
-        user_id: user.id,
-        items: [product1, product2],
-        payment_method: "credit_card"
-      )
+    it "creates user with valid params" do
+      result = described_class.call(valid_user_params)
 
       expect(result).to be_success
-      expect(result.value).to be_a(Order)
-    end
-
-    it "handles inventory validation failures" do
-      allow(InventoryValidator).to receive(:call).and_return(Failure("Out of stock"))
-
-      result = described_class.call(invalid_params)
-
-      expect(result).to be_failure
-      expect(result.error).to include("Out of stock")
+      expect(result.value).to be_a(User)
     end
   end
 end
 
 # Generated controller test
-RSpec.describe Api::EcommerceController do
-  describe "POST /api/ecommerce/checkout" do
-    it "creates order and returns JSON response" do
-      post "/api/ecommerce/checkout", params: valid_checkout_params
+RSpec.describe Api::UserController do
+  describe "POST /api/users" do
+    it "creates user and returns JSON response" do
+      post "/api/users", params: valid_params
 
       expect(response).to have_http_status(:created)
-      expect(json_response["data"]["type"]).to eq("order")
+      expect(json_response["data"]["type"]).to eq("user")
     end
   end
 end
 ```
 
-## Library Architecture & Extensibility
+## Authors
 
-- **Migration-Driven**: All code generation is declarative and repeatable
-- **Layered**: Add/remove layers as your architecture evolves
-- **Rollbackable**: Every generation is tracked and can be reverted
-- **Composable**: Use as building blocks for agentic/AI workflows
-- **Extensible**: Add new layer types, code templates, or DSL methods
+- [Marie Giy](https://github.com/mariegiy)
 
-## Why Hati Rails API for AI/Agentic Development?
+## Development
 
-- **Patternization**: All code is generated from explicit, context-rich patterns
-- **Automation-Ready**: Migrations are just Ruby—easy to generate, modify, or analyze with AI agents
-- **Scalable**: Designed for large, fast-moving teams and projects
-- **Robust**: Rollback, test, and iterate safely
-- **Clear Examples**: Every migration is a living, executable example
+After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+
+To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and the created tag, and push the `.gem` file to [rubygems.org](https://rubygems.org).
 
 ## Contributing
 
-We welcome contributions! Please:
-
-1. Fork the project
-2. Create your feature branch
-3. Add tests for new features
-4. Ensure all tests pass
-5. Submit a PR with clear description
+Bug reports and pull requests are welcome on GitHub at https://github.com/hackico-ai/hati-command. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/hackico-ai/hati-command/blob/main/CODE_OF_CONDUCT.md).
 
 ## License
 
-Hati Rails API is available under the MIT License.
+The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
 
-## About
+## Code of Conduct
 
-Hati Rails API brings the power of migration-driven, pattern-based, and agentic development to Rails APIs. Use it to:
-
-- Rapidly scaffold and evolve complex API architectures
-- Automate code generation with AI/agentic tools
-- Maintain clean, robust, and scalable codebases
-- Build AI-powered APIs and autonomous agent systems
-
-### Topics
-
-ruby rails-api service-objects code-organization business-logic-frameworks ai-development agentic-programming
-
-### Resources
-
-Readme
-
-### License
-
-MIT license
-
-**For more examples, documentation, and advanced patterns, see the [project repo](https://github.com/hackico-ai/hati-rails-api).**
+Everyone interacting in the HatCommand project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/hackico-ai/hati-command/blob/main/CODE_OF_CONDUCT.md).
