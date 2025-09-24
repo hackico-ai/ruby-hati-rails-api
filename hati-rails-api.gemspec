@@ -12,8 +12,9 @@ Gem::Specification.new do |spec|
   spec.email   = ['giy.mariya@gmail.com', 'yurigi.pro@gmail.com']
   spec.license = 'MIT'
 
-  spec.summary     = 'A Rails API tool for building API services.'
-  spec.description = 'A Rails API tool for building API services.'
+  spec.summary     = 'Migration-driven Rails API generation with AI-ready patterns and rollback capabilities.'
+  spec.description = 'Hati Rails API revolutionizes Rails API development by introducing migration-driven architecture generation. Built specifically for the AI era, it transforms how developers and AI agents collaborate on building robust, scalable Rails APIs with versioned, repeatable, and rollbackable code patterns.'
+  
   spec.homepage    = "https://github.com/hackico-ai/#{spec.name}"
 
   spec.required_ruby_version = '>= 3.0.0'
